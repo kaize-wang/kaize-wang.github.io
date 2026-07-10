@@ -546,6 +546,15 @@ h3 {
   margin-top: 22px;
 }
 
+.article-body section + section {
+  margin-top: 38px;
+}
+
+.article-body h2 {
+  margin-bottom: 14px;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+}
+
 .back-link {
   display: inline-block;
   margin-bottom: 24px;
