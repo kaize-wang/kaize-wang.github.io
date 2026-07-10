@@ -11,6 +11,10 @@
       button.textContent = lang === "zh" ? "EN" : "中";
       button.setAttribute("aria-label", lang === "zh" ? "Switch to English" : "切换到中文");
     });
+    document.querySelectorAll(".nav-toggle").forEach(function (button) {
+      button.textContent = lang === "zh" ? "菜单" : "Menu";
+      button.setAttribute("aria-label", lang === "zh" ? "打开导航菜单" : "Open navigation menu");
+    });
   }
 
   setLanguage(initial);
