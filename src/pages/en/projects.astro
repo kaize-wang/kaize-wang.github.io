@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublishable } from '../../lib/content';
+
+const projects = (await getCollection('projects'))
+  .filter((entry) => entry.data.lang === 'en' && isPublishable(entry.data))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'en'));
+---
+<BaseLayout title="Projects | Kaize Wang" lang="en" alternatePath="/projects/">
+  <section class="page-hero section">
+    <div class="container narrow">
+      <p class="eyebrow">Projects</p>
+      <h1>Research tools and exploratory systems</h1>
+      <p class="lead">Only projects selected for public visibility appear here. In the future, these pages will be generated from Project objects in Personal OS rather than edited by hand.</p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container project-grid">
+      {projects.map((project) => (
+        <article class="project-card">
+          <p class="eyebrow">{project.data.projectStatus === 'active' ? 'Active' : project.data.projectStatus}</p>
+          <h2>{project.data.title}</h2>
+          {project.data.description && <p>{project.data.description}</p>}
+          <div class="tag-row">
+            {project.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

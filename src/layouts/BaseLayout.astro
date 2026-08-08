@@ -1,0 +1,69 @@
+---
+import '../styles/site.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: 'zh' | 'en';
+  alternatePath?: string;
+}
+
+const {
+  title,
+  description = 'Kaize Wang academic homepage',
+  lang = 'zh',
+  alternatePath = lang === 'zh' ? '/en/' : '/',
+} = Astro.props;
+
+const nav = lang === 'zh'
+  ? [
+      ['主页', '/'],
+      ['研究', '/research/'],
+      ['论文', '/publications/'],
+      ['项目', '/projects/'],
+      ['博客', '/blog/'],
+      ['合作', '/openings/'],
+      ['CV', '/cv/'],
+    ]
+  : [
+      ['Home', '/en/'],
+      ['Research', '/en/research/'],
+      ['Publications', '/en/publications/'],
+      ['Projects', '/en/projects/'],
+      ['Blog', '/en/blog/'],
+      ['Openings', '/en/openings/'],
+      ['CV', '/en/cv/'],
+    ];
+---
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href={lang === 'zh' ? '/' : '/en/'}>
+          <span class="brand-mark">KW</span>
+          <span>{lang === 'zh' ? '王凯泽' : 'Kaize Wang'}</span>
+        </a>
+        <div class="nav-links">
+          {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+          <a class="lang-toggle" href={alternatePath}>{lang === 'zh' ? 'EN' : '中'}</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <span>© 2026 {lang === 'zh' ? '王凯泽' : 'Kaize Wang'}</span>
+        <span>{lang === 'zh' ? '由 Personal OS 驱动的公开主页' : 'Public site powered by Personal OS'}</span>
+      </div>
+    </footer>
+  </body>
+</html>

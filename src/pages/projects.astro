@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { isPublishable } from '../lib/content';
+
+const projects = (await getCollection('projects'))
+  .filter((entry) => entry.data.lang === 'zh' && isPublishable(entry.data))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
+---
+<BaseLayout title="项目 | 王凯泽" lang="zh" alternatePath="/en/projects/">
+  <section class="page-hero section">
+    <div class="container narrow">
+      <p class="eyebrow">Projects</p>
+      <h1>研究工具与探索性系统</h1>
+      <p class="lead">这里展示已经选择公开的项目。以后这些条目将由 Personal OS 中的 Project 对象生成，而不是手工修改网页。</p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container project-grid">
+      {projects.map((project) => (
+        <article class="project-card">
+          <p class="eyebrow">{project.data.projectStatus === 'active' ? '进行中' : project.data.projectStatus}</p>
+          <h2>{project.data.title}</h2>
+          {project.data.description && <p>{project.data.description}</p>}
+          <div class="tag-row">
+            {project.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

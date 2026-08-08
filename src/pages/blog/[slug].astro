@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublishable } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts
+    .filter((entry) => entry.data.lang === 'zh' && isPublishable(entry.data))
+    .map((entry) => ({ params: { slug: entry.data.contentId }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<BaseLayout title={`${entry.data.title} | 王凯泽`} description={entry.data.description} lang="zh" alternatePath={`/en/blog/${entry.data.contentId}/`}>
+  <article class="section article">
+    <div class="container narrow">
+      <a class="text-link" href="/blog/">← 返回博客</a>
+      <p class="eyebrow" style="margin-top: 24px">{entry.data.publishedAt?.toISOString().slice(0, 10)}</p>
+      <h1>{entry.data.title}</h1>
+      {entry.data.description && <p class="lead">{entry.data.description}</p>}
+      <div class="article-body"><Content /></div>
+    </div>
+  </article>
+</BaseLayout>
