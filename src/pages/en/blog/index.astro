@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((entry) => entry.data.lang === 'en' && entry.data.visibility === 'public')
+  .sort((a, b) => (b.data.publishedAt?.valueOf() ?? 0) - (a.data.publishedAt?.valueOf() ?? 0));
+---
+<BaseLayout title="Blog | Kaize Wang" lang="en" alternatePath="/blog/">
+  <section class="page-hero section">
+    <div class="container narrow">
+      <p class="eyebrow">Blog</p>
+      <h1>Research, tools, and thinking</h1>
+      <p class="lead">These pages are generated from structured content and can later be published directly from Personal OS.</p>
+    </div>
+  </section>
+  <section class="section compact">
+    <div class="container narrow">
+      {posts.length === 0 && <p class="lead">English translations that are still under AI or human review are intentionally not public yet.</p>}
+      {posts.map((post) => (
+        <article class="post-preview">
+          <time>{post.data.publishedAt?.toISOString().slice(0, 10)}</time>
+          <h2><a href={`/en/blog/${post.data.contentId}/`}>{post.data.title}</a></h2>
+          {post.data.description && <p>{post.data.description}</p>}
+          <a class="text-link" href={`/en/blog/${post.data.contentId}/`}>Read article</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
