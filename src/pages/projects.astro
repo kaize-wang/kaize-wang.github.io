@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { isPublishable } from '../lib/content';
 
 const projects = (await getCollection('projects'))
-  .filter((entry) => entry.data.lang === 'zh' && entry.data.visibility === 'public')
+  .filter((entry) => entry.data.lang === 'zh' && isPublishable(entry.data))
   .sort((a, b) => a.data.title.localeCompare(b.data.title, 'zh-CN'));
 ---
 <BaseLayout title="项目 | 王凯泽" lang="zh" alternatePath="/en/projects/">
