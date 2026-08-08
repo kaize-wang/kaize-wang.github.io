@@ -1,9 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublishable } from '../../lib/content';
 
 const posts = (await getCollection('blog'))
-  .filter((entry) => entry.data.lang === 'zh' && entry.data.visibility === 'public')
+  .filter((entry) => entry.data.lang === 'zh' && isPublishable(entry.data))
   .sort((a, b) => (b.data.publishedAt?.valueOf() ?? 0) - (a.data.publishedAt?.valueOf() ?? 0));
 ---
 <BaseLayout title="博客 | 王凯泽" lang="zh" alternatePath="/en/blog/">
