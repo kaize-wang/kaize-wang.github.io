@@ -1,12 +1,11 @@
-# Ignore the contents of the _site directory
+# Ignore generated Jekyll output
 _site/
 
-# Ignore the directory for local files during development
+# Ignore local development files
 local/
 
-# Ignore the Gemfile that is generated
+# Ignore the legacy Ruby lockfile
 Gemfile.lock
 
-# Ingore files created by npm
-node_modules
-package-lock.json
+# Ignore installed npm dependencies, but keep package-lock.json tracked
+node_modules/
