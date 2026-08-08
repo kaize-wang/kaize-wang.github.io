@@ -4,8 +4,8 @@ lang: en
 sourceLanguage: zh
 translationStatus: reviewed
 sourceRevision: "legacy-2026-06-12"
-title: Paper depth: from phenomena to mechanisms
-description: A note on why “not deep enough” often means that the paper has not yet moved from description to mechanism.
+title: "Paper depth: from phenomena to mechanisms"
+description: "A note on why ‘not deep enough’ often means that the paper has not yet moved from description to mechanism."
 publishedAt: 2026-06-12
 updatedAt: 2026-06-12
 status: mature
