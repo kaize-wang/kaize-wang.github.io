@@ -25,3 +25,9 @@ jobs:
         run: npm install
       - name: Build Astro site
         run: npm run build
+      - name: Upload generated lockfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-lockfile
+          path: package-lock.json
+          if-no-files-found: error
