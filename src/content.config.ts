@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const localizedContent = z.object({
   contentId: z.string(),
@@ -17,12 +18,12 @@ const localizedContent = z.object({
 });
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: localizedContent,
 });
 
 const researchNotes = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/research-notes' }),
   schema: localizedContent.extend({
     researchQuestion: z.string().optional(),
     zoteroKeys: z.array(z.string()).default([]),
@@ -30,7 +31,7 @@ const researchNotes = defineCollection({
 });
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: localizedContent.extend({
     projectStatus: z.enum(['planned', 'active', 'paused', 'completed']).default('active'),
   }),
