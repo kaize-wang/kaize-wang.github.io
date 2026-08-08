@@ -1,20 +1,31 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects'))
+  .filter((entry) => entry.data.lang === 'en' && entry.data.visibility === 'public')
+  .sort((a, b) => a.data.title.localeCompare(b.data.title, 'en'));
 ---
 <BaseLayout title="Projects | Kaize Wang" lang="en" alternatePath="/projects/">
   <section class="page-hero section">
     <div class="container narrow">
       <p class="eyebrow">Projects</p>
-      <h1>Research and systems in progress</h1>
-      <p class="lead">This page will eventually read public Project objects directly from Personal OS and synchronize project summaries, progress, and related public material.</p>
+      <h1>Research tools and exploratory systems</h1>
+      <p class="lead">Only projects selected for public visibility appear here. In the future, these pages will be generated from Project objects in Personal OS rather than edited by hand.</p>
     </div>
   </section>
   <section class="section compact">
-    <div class="container narrow article-body">
-      <h2>Personal OS</h2>
-      <p>A long-term system connecting tasks, knowledge, research, writing, and AI, with mature material flowing into the public website.</p>
-      <h2>Research systems</h2>
-      <p>Durable infrastructure for literature reading, research questions, experiments, and academic relationship mapping.</p>
+    <div class="container project-grid">
+      {projects.map((project) => (
+        <article class="project-card">
+          <p class="eyebrow">{project.data.projectStatus === 'active' ? 'Active' : project.data.projectStatus}</p>
+          <h2>{project.data.title}</h2>
+          {project.data.description && <p>{project.data.description}</p>}
+          <div class="tag-row">
+            {project.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>
