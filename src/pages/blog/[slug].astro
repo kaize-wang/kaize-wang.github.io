@@ -1,11 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isPublishable } from '../../lib/content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts
-    .filter((entry) => entry.data.lang === 'zh' && entry.data.visibility === 'public')
+    .filter((entry) => entry.data.lang === 'zh' && isPublishable(entry.data))
     .map((entry) => ({ params: { slug: entry.data.contentId }, props: { entry } }));
 }
 
